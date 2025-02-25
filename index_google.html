@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Google Maps</title>
+    <script>
+      function openGoogleMaps() {
+        // 定义目标位置的经纬度和搜索关键词
+        const location = "New York";
+        const center = "40.7128,-74.0060";
+
+        // 构建安卓和iOS的Deep Link
+        const androidUrl = `comgooglemaps://?q=${encodeURIComponent(
+          location
+        )}&center=${center}`;
+        const iosUrl = `comgooglemaps-x-callback://?q=${encodeURIComponent(
+          location
+        )}&center=${center}`;
+
+        // 尝试打开安卓Deep Link
+        if (navigator.userAgent.match(/android/i)) {
+          window.location.href = androidUrl;
+          setTimeout(function () {
+            // 如果Deep Link失败，打开网页版谷歌地图
+            window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              location
+            )}&center=${center}`;
+          }, 2000);
+        } else if (navigator.userAgent.match(/iphone|ipad|ipod/i)) {
+          // 尝试打开iOS Deep Link
+          window.location.href = iosUrl;
+          setTimeout(function () {
+            // 如果Deep Link失败，打开网页版谷歌地图
+            window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              location
+            )}&center=${center}`;
+          }, 2000);
+        } else {
+          // 如果不是安卓或iOS设备，直接打开网页版谷歌地图
+          window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+            location
+          )}&center=${center}`;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Open Google Maps</h1>
+    <button onclick="openGoogleMaps()">Search New York on Google Maps</button>
+  </body>
+</html>

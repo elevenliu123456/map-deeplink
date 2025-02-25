@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>打开高德地图搜索天安门</title>
+    <script>
+      function openAmapSearch() {
+        const u = navigator.userAgent;
+        const isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+        const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        const amap = isiOS ? "iosamap://" : "androidamap://";
+
+        // 构建高德地图的DeepLink URL
+        const query = encodeURIComponent("天安门");
+        const src = "your_app_package_name"; // 替换为你的应用包名，如果没有可以省略
+
+        const amapUrl = `${amap}poi?name=${query}&sourceApplication=${src}`;
+
+        // 尝试打开高德地图
+        window.location.href = amapUrl;
+
+        // 如果无法打开高德地图，提示用户下载
+        setTimeout(() => {
+          if (!document.hidden) {
+            alert("无法打开高德地图，请先安装高德地图应用。");
+          }
+        }, 3000);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>打开高德地图搜索天安门</h1>
+    <button onclick="openAmapSearch()">打开高德地图</button>
+  </body>
+</html>
